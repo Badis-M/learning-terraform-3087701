@@ -63,7 +63,7 @@ module "blog_alb" {
 
   name    = "blog_alb"
   vpc_id  = module.blog_vpc.vpc_id
-  subnets = module.blog.vpc.public_subnets
+  subnets = module.blog_vpc.public_subnets
 
   security_groups = [module.blog_sg.security_group_id]
 
@@ -74,7 +74,6 @@ module "blog_alb" {
       forward = {
         target_group_arn = aws_lb_target_group.blog.arn
       }
-    }
     }
   }
 
