@@ -70,13 +70,6 @@ module "blog_alb" {
   }
 }
 
-resource "aws_lb_target_group" "blog" {
-  name     = "blog"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = module.blog_vpc.vpc_id
-}
-
 resource "aws_lb_target_group_attachment" "blog" {
   target_group_arn = aws_lb_target_group.blog.arn
   target_id        = aws_instance.blog.id
@@ -99,7 +92,7 @@ module "blog_autoscaling" {
   instance_type        = var.instance_type
   image_id             = data.aws_ami.app_ami.id
 
-  traffic_source_attachements = {
+  traffic_source_attachments = {
     blog_alb = {
       traffic_source_identifier = aws_lb_target_group.blog.arn
     }
